@@ -5,6 +5,16 @@
     font-size: 1.2rem;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+ul{
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
 /* Background and web app */
 
 #top-bg {
@@ -82,6 +92,36 @@ main{
 
     background-color: #8edafc;
 }
+
+/*  search-bar */
+
+.search-bar{
+    width: 100%;
+    height: 50px;
+
+    background-color: #eaeaea;
+}
+
+.search-icon {
+    color: #b1b1b1;
+
+    padding: 10px 10px;
+    background-color: white;
+}
+
+/*  contact section */
+.contacts-list{
+    width: 100%;
+    height: 80px;
+
+    border-top: 1px solid #eaeaea;
+}
+
+.last-message{
+    color: gray;
+    font-size: 14px;
+}
+
 
 
 
