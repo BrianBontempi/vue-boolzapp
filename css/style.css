@@ -1,3 +1,10 @@
+/* ! generics */
+
+.name {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
 /* Background and web app */
 
 #top-bg {
@@ -36,3 +43,36 @@ main{
     width: 70%;
     height: 100%;
 }
+
+/* header */
+
+.header{
+    background-color: #eaeaea;
+
+    width: 100%;
+    height: 80px;
+}
+/*  user image */
+.box-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.box-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/*  icon */
+.icons {
+    color: #b1b1b1;
+
+    display: flex;
+    gap: 20px;
+}
+
+
