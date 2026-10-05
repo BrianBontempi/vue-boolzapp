@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- ! vue js -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- ! data -->
+    <script src="js/data.js"></script>
     <!-- ! javascript -->
     <script defer src="js/script.js"></script>
 </head>
@@ -30,9 +32,9 @@
                     <div class="header px-3 d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center gap-2">
                             <div class="box-image">
-                                <img src="img/avatar_1.jpg" alt="">
+                                <img :src="getAvatarUrl(user.avatar)" :alt="user.name">
                             </div>
-                            <div class="name">Pippo</div> 
+                            <div class="name">{{ user.name }}</div> 
                         </div>
                         <div class="icons">
                             <i class="fa-solid fa-circle-notch fa-xl"></i>
@@ -62,14 +64,14 @@
     <!--Contats section-->
                     <section class="contacts">
                         <ul>
-                            <li class="contacts-list d-flex align-items-center">
+                            <li v-for="contact in contacts" :key="contact.id" class="contacts-list d-flex align-items-center pointer" :class="{ active: contact.id === activeId }" @click="setActiveContact(contact.id)">
                                 <div class="contact-info px-3 d-flex align-items-center gap-2">
                                     <div class="box-image">
-                                        <img src="img/avatar_1.jpg" alt="">
+                                        <img :src="getAvatarUrl(contact.avatar)" :alt="contact.name">
                                     </div>
                                     <div>
-                                        <div class="contact name">Pippo</div> 
-                                        <div class="last-message">*ultimo messaggio*</div>
+                                        <div class="contact name">{{ contact.name }}</div> 
+                                        <div class="last-message">{{ getLastMessage(contact) }}</div>
                                     </div>
                                 </div>
                             </li>
@@ -77,8 +79,39 @@
                     </section>
 
                 </nav>
-                <main>
-
+                <main class="d-flex flex-column">
+    <!-- header chat attiva -->
+                    <div class="header px-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="box-image">
+                                <img :src="getAvatarUrl(activeContact.avatar)" :alt="activeContact.name">
+                            </div>
+                            <div>
+                                <div class="name">{{ activeContact.name }}</div>
+                                <div class="last-access">Ultimo accesso oggi alle {{ getTime(lastMessageDate) }}</div>
+                            </div>
+                        </div>
+                        <div class="icons">
+                            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                            <i class="fa-solid fa-paperclip fa-xl"></i>
+                            <i class="fa-solid fa-ellipsis-vertical fa-xl"></i>
+                        </div>
+                    </div>
+    <!-- messaggi -->
+                    <section class="chat px-5 py-4">
+                        <div v-for="message in activeContact.messages" :key="message.id" class="message-row d-flex" :class="message.status">
+                            <div class="message" :class="message.status">
+                                <div class="message-text">{{ message.text }}</div>
+                                <div class="message-time">{{ getTime(message.date) }}</div>
+                            </div>
+                        </div>
+                    </section>
+    <!-- invio messaggio -->
+                    <section class="send-bar px-3 d-flex align-items-center gap-3">
+                        <i class="fa-regular fa-face-smile fa-xl"></i>
+                        <input type="text" class="form-control" placeholder="Scrivi un messaggio">
+                        <i class="fa-solid fa-microphone fa-xl"></i>
+                    </section>
                 </main>
             </div>
         </section>
