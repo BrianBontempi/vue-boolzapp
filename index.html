@@ -58,13 +58,13 @@
                             <span class="search-icon pointer input-group-text">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </span>
-                            <input type="text" class="form-control" placeholder="Cerca o inizia una nuova chat">
+                            <input type="text" class="form-control" placeholder="Cerca o inizia una nuova chat" v-model.trim="searchText">
                         </div>
                     </section>
     <!--Contats section-->
                     <section class="contacts">
                         <ul>
-                            <li v-for="contact in contacts" :key="contact.id" class="contacts-list d-flex align-items-center pointer" :class="{ active: contact.id === activeId }" @click="setActiveContact(contact.id)">
+                            <li v-for="contact in filteredContacts" :key="contact.id" class="contacts-list d-flex align-items-center pointer" :class="{ active: contact.id === activeId }" @click="setActiveContact(contact.id)">
                                 <div class="contact-info px-3 d-flex align-items-center gap-2">
                                     <div class="box-image">
                                         <img :src="getAvatarUrl(contact.avatar)" :alt="contact.name">
@@ -76,6 +76,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <p v-if="!filteredContacts.length" class="text-center text-secondary mt-3">Nessun contatto trovato</p>
                     </section>
 
                 </nav>
@@ -99,8 +100,15 @@
                     </div>
     <!-- messaggi -->
                     <section class="chat px-5 py-4">
+                        <p v-if="!activeContact.messages.length" class="text-center text-secondary">Non ci sono messaggi</p>
                         <div v-for="message in activeContact.messages" :key="message.id" class="message-row d-flex" :class="message.status">
                             <div class="message" :class="message.status">
+                                <!-- menu a tendina del messaggio -->
+                                <i class="fa-solid fa-chevron-down message-options pointer" @click="toggleMenu(message.id)"></i>
+                                <ul v-if="openMenuId === message.id" class="dropdown-options">
+                                    <li class="pointer">Info messaggio</li>
+                                    <li class="pointer" @click="deleteMessage(message.id)">Cancella messaggio</li>
+                                </ul>
                                 <div class="message-text">{{ message.text }}</div>
                                 <div class="message-time">{{ getTime(message.date) }}</div>
                             </div>

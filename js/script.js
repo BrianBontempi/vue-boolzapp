@@ -5,9 +5,16 @@ const app = createApp({
         user: data.user,
         contacts: data.contacts,
         activeId: 1,
-        newMessage: ''
+        newMessage: '',
+        searchText: '',
+        openMenuId: null
     }),
     computed: {
+        // contatti filtrati in base al testo cercato
+        filteredContacts() {
+            const search = this.searchText.toLowerCase();
+            return this.contacts.filter(contact => contact.name.toLowerCase().includes(search));
+        },
         // contatto attualmente selezionato
         activeContact() {
             return this.contacts.find(contact => contact.id === this.activeId);
@@ -35,6 +42,14 @@ const app = createApp({
         },
         setActiveContact(id) {
             this.activeId = id;
+            this.openMenuId = null;
+        },
+        toggleMenu(id) {
+            this.openMenuId = this.openMenuId === id ? null : id;
+        },
+        deleteMessage(id) {
+            this.activeContact.messages = this.activeContact.messages.filter(message => message.id !== id);
+            this.openMenuId = null;
         },
         // data attuale nello stesso formato dei dati 'gg/mm/aaaa hh:mm:ss'
         getCurrentDate() {
