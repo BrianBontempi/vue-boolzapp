@@ -4,7 +4,8 @@ const app = createApp({
     data: () => ({
         user: data.user,
         contacts: data.contacts,
-        activeId: 1
+        activeId: 1,
+        newMessage: ''
     }),
     computed: {
         // contatto attualmente selezionato
@@ -34,6 +35,38 @@ const app = createApp({
         },
         setActiveContact(id) {
             this.activeId = id;
+        },
+        // data attuale nello stesso formato dei dati 'gg/mm/aaaa hh:mm:ss'
+        getCurrentDate() {
+            const now = new Date();
+            const pad = n => String(n).padStart(2, '0');
+            const date = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+            const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+            return `${date} ${time}`;
+        },
+        addMessage(contact, text, status) {
+            const { messages } = contact;
+            const lastId = messages.length ? messages[messages.length - 1].id : 0;
+
+            messages.push({
+                id: lastId + 1,
+                date: this.getCurrentDate(),
+                text,
+                status
+            });
+        },
+        sendMessage() {
+            if (!this.newMessage) return;
+
+            // salvo il contatto: se nel frattempo cambio chat la risposta arriva comunque a lui
+            const contact = this.activeContact;
+            this.addMessage(contact, this.newMessage, 'sent');
+            this.newMessage = '';
+
+            // risposta automatica dopo 1 secondo
+            setTimeout(() => {
+                this.addMessage(contact, 'ok', 'received');
+            }, 1000);
         }
     }
 });

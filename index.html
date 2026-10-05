@@ -109,7 +109,7 @@
     <!-- invio messaggio -->
                     <section class="send-bar px-3 d-flex align-items-center gap-3">
                         <i class="fa-regular fa-face-smile fa-xl"></i>
-                        <input type="text" class="form-control" placeholder="Scrivi un messaggio">
+                        <input type="text" class="form-control" placeholder="Scrivi un messaggio" v-model.trim="newMessage" @keyup.enter="sendMessage">
                         <i class="fa-solid fa-microphone fa-xl"></i>
                     </section>
                 </main>
